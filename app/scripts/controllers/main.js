@@ -23,30 +23,26 @@ angular.module('angularappApp')
           tempobj.langitude = $scope.cities.coord.lon;
           tempobj.name = $scope.cities.name;
           var weather = $scope.cities.weather;
+          tempobj.country = $scope.cities.sys.country;
         for (var i=0; i<weather.length; i++){
             tempobj.description = weather[i].description;
             tempobj.climateReport = weather[i].main;
             }
             $scope.citiData.push(tempobj);
+
+              if (!localStorage.hasOwnProperty('weatherReport')) {
+          $scope.points = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));;
+    
+                     } else{
+                        $scope.newObj = JSON.parse(localStorage.getItem('weatherReport'));
+                     }
+        
             
-        if (localStorage.hasOwnProperty('weatherReport')) {
-          $scope.points = localStorage.getItem("weatherReport");
-          console.log('$scope.points',$scope.points)
-        } else {
-          $scope.points = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));
-        }
+      
 
       }).error(function (error) {
         console.log('error', error);
       });
     };
-
-    
-
-    // $scope.points = [
-  
-    //   { "name": "India", "latitude": 20.5937, "longitude": 78.9629 },
-    //   {"name":"Hyderabad","lattitude":17.38, "longitude": 78.47}
-    // ];
 
   }]);
