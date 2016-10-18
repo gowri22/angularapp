@@ -1,25 +1,26 @@
 <div class="container margin-top-50">
-  <div class="col-md-12 center-block">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="input-group margin-bottom-50">
-          <input type="text" class="form-control" placeholder="Search for..." ng-model="name">
-          <span class="input-group-btn">
+	<div class="col-md-12 center-block">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="input-group margin-bottom-50">
+					<input type="text" ng-model="name" placeholder="Locations loaded via $http" uib-typeahead="address for address in getLocation($viewValue)"
+						typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+
+					<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+					<div ng-show="noResults">
+						<i class="glyphicon glyphicon-remove"></i> No Results Found
+					</div>
+					<span class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="getWeatherData(name)">Go!</button>
             </span>
-        </div>
-<div ng-repeat="point in points track by index">
-  {{point}}
-  </div>
-        <div class="col-lg-12">
-          <div map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
-            <ng-map center="[-26.6875847,135.0857733]" style="height: 480px;" zoom-to-include-markers="true" class="custom-map">
-             
-            </ng-map>
-          </div>
-          </ng-map>
-        </div>
-      </div>
-    </div>
-    <div>
-    </div>
+				</div>
+				<div class="col-lg-12">
+					 <map zoom="4" center="11.42, -86.247">
+              <marker ng-repeat="pos in citiData" position="{{pos.latitude}}, {{pos.longitude}}" ></marker>
+            </map>
+				</div>
+			</div>
+		</div>
+		<div>
+		</div>

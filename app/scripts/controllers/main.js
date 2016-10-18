@@ -8,16 +8,24 @@
  * Controller of the angularappApp
  */
 angular.module('angularappApp')
-  .controller('MainCtrl', ['$scope', 'weatherService', '$http', function ($scope, weatherService, $http) {
-    $scope.cities = '';
+  .controller('MainCtrl', ['$scope', 'weatherService', '$http', function ($scope, weatherService, $http) {    
     $scope.citiData = [];
-    $scope.weatherDescs = [];
+   $scope.getLocation = function(val) {
+    return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: val,
+        sensor: false
+      }
+    }).then(function(response){
+      return response.data.results.map(function(item){
+      return item.formatted_address;
+      });
+    });
+   }
 
     $scope.getWeatherData = function (name) {
       weatherService.getweatherApi(name).success(function (response) {
         $scope.cities = response;
-
-        console.log('$scope.cities',$scope.cities)
           var tempobj = {};
           tempobj.lattitude = $scope.cities.coord.lat;
           tempobj.langitude = $scope.cities.coord.lon;
@@ -31,18 +39,17 @@ angular.module('angularappApp')
             $scope.citiData.push(tempobj);
 
               if (!localStorage.hasOwnProperty('weatherReport')) {
-          $scope.points = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));;
-    
+                $scope.citiData = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));
+                 $scope.citiData = JSON.parse(localStorage.getItem('weatherReport'));
                      } else{
-                        $scope.newObj = JSON.parse(localStorage.getItem('weatherReport'));
+                        $scope.citiData = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));
                      }
-        
-            
+                     $scope.citiData = JSON.parse(localStorage.getItem('weatherReport'));
       
-
-      }).error(function (error) {
+          }).error(function (error) {
         console.log('error', error);
       });
     };
+    
 
-  }]);
+  }])

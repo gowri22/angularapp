@@ -19,5 +19,6 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMap',
-    'underscore'
+    'underscore',
+    'ui.bootstrap'
   ])
