@@ -10,6 +10,11 @@
 angular.module('angularappApp')
   .controller('MainCtrl', ['$scope', 'weatherService', '$http', function ($scope, weatherService, $http) {    
     $scope.citiData = [];
+
+    if (localStorage.hasOwnProperty('weatherReport')) {
+                $scope.citiData = JSON.parse(localStorage.getItem('weatherReport'));
+    }
+
    $scope.getLocation = function(val) {
     return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
       params: {
@@ -45,6 +50,7 @@ angular.module('angularappApp')
                         $scope.citiData = localStorage.setItem("weatherReport", JSON.stringify($scope.citiData));
                      }
                      $scope.citiData = JSON.parse(localStorage.getItem('weatherReport'));
+                     
       
           }).error(function (error) {
         console.log('error', error);

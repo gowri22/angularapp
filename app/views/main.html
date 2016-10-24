@@ -1,7 +1,7 @@
 <div class="container margin-top-50">
 	<div class="col-md-12 center-block">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-4">
 
 				<div class="input-group margin-bottom-50">
 					<input type="text" ng-model="name" placeholder="Locations loaded via $http" uib-typeahead="address for address in getLocation($viewValue)"
@@ -15,12 +15,42 @@
               <button class="btn btn-default" type="button" ng-click="getWeatherData(name)">Go!</button>
             </span>
 				</div>
-				<div class="col-lg-12">
-					 <map zoom="4" center="11.42, -86.247">
-              <marker ng-repeat="pos in citiData" position="{{pos.latitude}}, {{pos.longitude}}" ></marker>
-            </map>
-				</div>
 			</div>
+      	<div class="col-md-8">
+				<table class="table-striped table-responsive" border="1" cellpadding='10' cellspacing="10" data-ng-if="citiData.length >0">
+					<thead>
+						<tr>
+							<th>S.no</th>
+							<th>country</th>
+							<th>Capital</th>
+							<th>Lattitude</th>
+							<th>Langitude</th>
+							<th>Weather Report</th>
+							<th>Climate Report</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="point in citiData">
+							<td>{{$index+1}}</td>
+							<td>{{point.country}}</td>
+							<td>{{point.name}}</td>
+							<td>{{point.lattitude}}</td>
+							<td>{{point.langitude}}</td>
+							<td>{{point.description}}</td>
+							<td>{{point.climateReport}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        <div>
+				<ng-map zoom="1">
+					<div data-ng-repeat="point in citiData track by $index">
+						<marker position="{{point.lattitude}}, {{point.langitude}}"></marker>
+					</div>
+				</ng-map>
+			</div>
+		
+
 		</div>
 		<div>
 		</div>
